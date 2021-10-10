@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'RPGLogs Exercise'),
 
     /*
     |--------------------------------------------------------------------------
@@ -120,6 +120,7 @@ return [
     */
 
     'key' => env('APP_KEY'),
+    'wcl_key' => env('WCL_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
