@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use GuzzleHttp\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//https://www.warcraftlogs.com/parses/character/Xepheris/Blackmoore/eu?includeCombatantInfo=1&api_key=6e7efd712c76d48894f855c98dd00a10
+const WCL_ENDPOINT = 'https://www.warcraftlogs.com/v1';
+
 Route::prefix('wcl')->group(function () {
     Route::get('/latest-parse/{region}/{realm}/{character}', function (Request $request, string $region, string $realm, string $character) {
-        return [
-            'region' => $region,
-            'realm' => $realm,
-            'character' => $character,
-            'api_key' => config('app.wcl_key')
-        ];
+        $client = new Client();
+
+        $path = implode('/', ['https://www.warcraftlogs.com/v1', 'parses', 'character', $character, $realm, $region]);
+
+
+        $response = $client->get($path, [
+            'query' => [
+                'includeCombatantInfo' => true,
+                'api_key' => config('app.wcl_key')
+            ]
+        ]);
+
+        return $response->getBody();
     });
 });

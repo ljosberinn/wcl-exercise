@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { getTopParse } from "./api";
 
 const character = "Xepheris";
@@ -9,9 +10,17 @@ export function App(): JSX.Element {
     const [data, setData] = useState<unknown | null>(null);
 
     useEffect(() => {
-        getTopParse({ character, region, realm })
-            .then((json) => setData(json))
-            .catch(console.error);
+        async function load() {
+            try {
+                const json = await getTopParse({ character, realm, region });
+                setData(json);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // eslint-disable-next-line no-void
+        void load();
     }, []);
 
     return (
