@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('wcl')->group(function () {
+    Route::get('/latest-parse/{region}/{realm}/{character}', function (Request $request, string $region, string $realm, string $character) {
+        return [
+            'region' => $region,
+            'realm' => $realm,
+            'character' => $character,
+            'api_key' => config('app.wcl_key')
+        ];
+    });
 });
