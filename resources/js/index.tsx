@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import type { TopParseResponse } from "./api";
 import { getTopParse } from "./api";
 
 const character = "Xepheris";
@@ -7,7 +8,7 @@ const region = "eu";
 const realm = "Blackmoore";
 
 export function App(): JSX.Element {
-    const [data, setData] = useState<unknown | null>(null);
+    const [data, setData] = useState<TopParseResponse | null>(null);
 
     useEffect(() => {
         async function load() {

@@ -28,6 +28,18 @@ module.exports = {
                 "monospace",
             ],
         },
+        colors: {
+            black: colors.black,
+            blue: colors.blue,
+            coolgray: colors.coolGray,
+            current: "currentColor",
+            gray: colors.warmGray,
+            green: colors.emerald,
+            red: colors.red,
+            transparent: "transparent",
+            white: colors.white,
+            yellow: colors.yellow,
+        },
         extend: {
             colors: classColors,
         },
