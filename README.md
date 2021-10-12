@@ -13,3 +13,7 @@
 -   ensure you have a valid `cacert.pem` in your `php.ini` [read more](https://github.com/guzzle/guzzle/issues/1935#issuecomment-371756738)
 -   run `yarn dev` to compile frontend assets or `yarn watch-poll` to start a watcher listening on changes
 -   run `php artisan serve` to start the backend
+
+## Known bugs
+
+-   `<LoadingHourglass />` doesn't always display on index route when loading character info
