@@ -24,24 +24,30 @@ render(
                     </Switch>
                 </LookupContextProvider>
             </main>
-            <footer className="flex flex-col justify-center pt-4 pb-8 sm:space-x-2 sm:flex-row">
-                <span className="text-center sm:text-initial">Gerrit Alex</span>
-                <span className="hidden sm:inline">|</span>
-                <ExternalLink
-                    href="https://raider.io/characters/eu/blackmoore/Xepheris"
-                    className="inline-flex justify-center sm:flex sm:justify-start"
-                >
-                    Xepheris <BiLinkExternal className="w-4 h-4 ml-2" />
-                </ExternalLink>
-                <span className="hidden sm:inline">|</span>
-                <ExternalLink
-                    href="https://github.com/ljosberinn/wcl-exercise"
-                    className="inline-flex justify-center sm:flex sm:justify-start"
-                >
-                    Repository <BiLinkExternal className="w-4 h-4 ml-2" />
-                </ExternalLink>
-            </footer>
+            <Footer />
         </Router>
     </StrictMode>,
     document.querySelector("#app")
 );
+
+function Footer() {
+    return (
+        <footer className="flex flex-col justify-center pt-4 pb-8 sm:space-x-2 sm:flex-row">
+            <span className="text-center sm:text-initial">Gerrit Alex</span>
+            <span className="hidden sm:inline">|</span>
+            <ExternalLink
+                href="https://raider.io/characters/eu/blackmoore/Xepheris"
+                className="inline-flex justify-center sm:flex sm:justify-start"
+            >
+                Xepheris <BiLinkExternal className="w-4 h-4 ml-2" />
+            </ExternalLink>
+            <span className="hidden sm:inline">|</span>
+            <ExternalLink
+                href="https://github.com/ljosberinn/wcl-exercise"
+                className="inline-flex justify-center sm:flex sm:justify-start"
+            >
+                Repository <BiLinkExternal className="w-4 h-4 ml-2" />
+            </ExternalLink>
+        </footer>
+    );
+}

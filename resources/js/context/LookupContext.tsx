@@ -158,6 +158,19 @@ export function LookupContextProvider({
         []
     );
 
+    // automatically clear error after 5s
+    useEffect(() => {
+        if (error) {
+            const timeout = setTimeout(() => {
+                setError(null);
+            }, 5000);
+
+            return () => {
+                clearTimeout(timeout);
+            };
+        }
+    }, [error]);
+
     const value = useMemo(() => {
         return {
             loading,
@@ -190,6 +203,7 @@ export function useLatestParse(
         ...characterInfo,
         type: "parse",
     });
+
     const cached = key in cache ? cache[key] : null;
 
     useEffect(() => {
