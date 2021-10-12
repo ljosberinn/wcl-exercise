@@ -34,7 +34,7 @@ export function LatestParse(): JSX.Element {
     );
 
     if (error) {
-        return <GenericError message={error} />;
+        return <GenericError message={error} goBack />;
     }
 
     const roundedParse = data

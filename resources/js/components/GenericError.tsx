@@ -1,8 +1,14 @@
+import { Link } from "react-router-dom";
+
 export type GenericErrorProps = {
     message: string;
+    goBack?: boolean;
 };
 
-export function GenericError({ message }: GenericErrorProps): JSX.Element {
+export function GenericError({
+    message,
+    goBack,
+}: GenericErrorProps): JSX.Element {
     return (
         <div>
             <div className="flex justify-center pt-4">
@@ -12,9 +18,17 @@ export function GenericError({ message }: GenericErrorProps): JSX.Element {
                     className="w-16 h-16 rounded"
                 />
             </div>
-            <p className="text-center">
-                Oops, encountered an error: <code>{message}</code>
-            </p>
+            <p className="pb-2 text-center">Oops, encountered an error:</p>
+
+            <code className="block p-2 text-center border-2 border-red-500">
+                {message}
+            </code>
+
+            {goBack ? (
+                <Link to="/" className="block pt-2 text-center">
+                    Go back
+                </Link>
+            ) : null}
         </div>
     );
 }
