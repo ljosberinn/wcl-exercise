@@ -20,6 +20,8 @@ mix.ts("resources/js/app.tsx", "public/js")
     ])
     .sourceMaps();
 
+mix.copyDirectory("resources/assets", "public/assets");
+
 if (mix.inProduction()) {
     mix.version();
 }

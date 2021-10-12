@@ -48,11 +48,10 @@ Route::prefix('wcl')->group(function () {
 
             $enchants = ['permanentEnchant', 'temporaryEnchant', 'onUseEnchant'];
 
-            return [
+            return response([
                 'meta' => [
                     'fightID' => $latestParse['fightID'],
                     'reportID' => $latestParse['reportID'],
-                    'startTime' => $latestParse['startTime'],
                 ],
                 'encounter' => [
                     'name' => $latestParse['encounterName'],
@@ -65,36 +64,42 @@ Route::prefix('wcl')->group(function () {
                     'soulbindPowers' => $latestParse['soulbindPowers'],
                     'legendaryEffects' => $latestParse['legendaryEffects'],
                     'talents' => $latestParse['talents'],
-                    'server' => $latestParse['server'],
+                    'realm' => $latestParse['server'],
+                    'region' => $region,
+                    'name' => $character,
                     'itemLevel' => $latestParse['ilvlKeyOrPatch'],
-                    // normalize types
-                    'gear' => array_map(function ($item) use ($enchants) {
-                        $item['itemLevel'] = (int) $item['itemLevel'];
-                        $item['id'] = (int) $item['id'];
+                    'gear' => array_values(
+                        // normalize types
+                        array_map(function ($item) use ($enchants) {
+                            $item['id'] = (int) $item['id'];
 
-                        foreach ($enchants as $enchant) {
-                            if (array_key_exists($enchant, $item)) {
-                                $item[$enchant] = (int) $item[$enchant];
+                            foreach ($enchants as $enchant) {
+                                if (array_key_exists($enchant, $item)) {
+                                    $item[$enchant] = (int) $item[$enchant];
+                                }
                             }
-                        }
 
-                        if (array_key_exists('gems', $item)) {
-                            $item['gems'] = array_map("normalizeGem", $item['gems']);
-                        }
+                            if (array_key_exists('gems', $item)) {
+                                $item['gems'] = array_map("normalizeGem", $item['gems']);
+                            }
 
-                        if (array_key_exists('bonusIDs', $item)) {
-                            $item['bonusIDs'] = array_map("normalizeBonusIDs", $item['bonusIDs']);
-                        }
+                            if (array_key_exists('bonusIDs', $item)) {
+                                $item['bonusIDs'] = array_map("normalizeBonusIDs", $item['bonusIDs']);
+                            }
 
-                        unset($item['quality']);
+                            unset($item['temporaryEnchant']);
+                            unset($item['onUseEnchant']);
 
-                        return $item;
-                        // drop unknown items
-                    }, array_filter($latestParse['gear'], fn ($dataset) => $dataset['id'] !== 0)),
+                            return $item;
+                            // drop unknown items
+                        }, array_filter($latestParse['gear'], fn ($dataset) => $dataset['id'] !== 0))
+                    ),
                     'class' => $latestParse['class'],
                     'spec' => $latestParse['spec'],
                 ],
-            ];
+            ], 200, [
+                'Cache-Control' => 'public, max-age=180, s-maxage=180, stale-while-revalidate=180'
+            ]);
         } catch (ClientException $error) {
             // surface api error directly
             $errorMsg = json_decode($error->getResponse()->getBody()->__toString(), true);

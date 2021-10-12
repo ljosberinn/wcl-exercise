@@ -15,6 +15,14 @@ const classColors = {
     warrior: "#c69b7d",
 };
 
+const parseColors = {
+    legendary: "#ff8000",
+    rare: "#0070ff",
+    epic: "#a335ee",
+    uncommon: "#1eff00",
+    common: "#666",
+};
+
 module.exports = {
     mode: "jit",
     purge: ["./resources/**/*.{js,ts,jsx,tsx,php}"],
@@ -41,9 +49,12 @@ module.exports = {
             yellow: colors.yellow,
         },
         extend: {
-            colors: classColors,
+            colors: {
+                ...classColors,
+                ...parseColors,
+            },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/forms")],
     darkMode: "class",
 };
